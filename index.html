@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Does My Wife Love Me?</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin-top: 50px;
+      position: relative;
+    }
+    #yesButton {
+      padding: 15px;
+      font-size: 16px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .noButton {
+      position: absolute;
+      padding: 15px;
+      font-size: 16px;
+      background-color: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #celebrate {
+      display: none;
+      margin-top: 20px;
+    }
+    #celebrationVideo {
+      width: 80%;
+      max-width: 800px;
+      border-radius: 15px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+    h2 {
+      font-size: 2rem;
+      color: #2E8B57;
+      transition: font-size 0.3s ease;
+    }
+    .sadEmoji {
+      font-size: 50px; /* Adjust size as needed */
+      position: absolute;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Do you love me?</h1>
+  
+  <div id="buttons">
+    <button id="yesButton" onclick="showLove()">Yes</button>
+    <button class="noButton" id="noButton" onclick="showNo()">No</button>
+  </div>
+  
+  <div id="celebrate">
+    <h2>Yay! You love me!</h2>
+    <video id="celebrationVideo" controls>
+      <source src="kiss.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <script>
+    let noCount = 0;
+    const yesButton = document.getElementById('yesButton');
+    const buttonsDiv = document.getElementById('buttons');
+    const celebrateDiv = document.getElementById('celebrate');
+    const celebrationVideo = document.getElementById('celebrationVideo');
+
+    // Array of sad emojis
+    const sadEmojis = ['😢', '😞', '😔', '😩', '🥺'];
+
+    function showNo() {
+      noCount++;
+      if (noCount >= 3) {
+        yesButton.style.fontSize = (20 + noCount * 30) + 'px';  // Make it slightly bigger but not too much
+        yesButton.style.padding = (15 + noCount) + 'px';
+      }
+      createRandomNoButton();
+      showSadEmoji(); // Show sad emoji when "No" is clicked
+    }
+
+    function showLove() {
+      // Hide all the No buttons
+      const noButtons = document.querySelectorAll('.noButton');
+      noButtons.forEach(button => button.remove());
+      
+      // Start the celebration
+      celebrateDiv.style.display = 'block';
+      celebrationVideo.play();
+      
+      // Disable Yes button and show success message
+      yesButton.disabled = true;
+      yesButton.textContent = "She loves you!";
+      
+      // Keep the Yes button subtle
+      yesButton.style.transform = 'scale(1.05)';  // Only slightly bigger
+      setTimeout(() => {
+        yesButton.style.transform = 'scale(1)';
+      }, 200);
+    }
+
+    function createRandomNoButton() {
+      // Create a new "No" button
+      const newNoButton = document.createElement('button');
+      newNoButton.classList.add('noButton');
+      newNoButton.textContent = 'No';
+      newNoButton.onclick = showNo;
+      
+      // Set random position
+      newNoButton.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+      newNoButton.style.left = Math.random() * (window.innerWidth - 100) + 'px';
+      
+      // Append to the body
+      document.body.appendChild(newNoButton);
+    }
+
+    function showSadEmoji() {
+      // Randomly select a sad emoji from the array
+      const randomEmoji = sadEmojis[Math.floor(Math.random() * sadEmojis.length)];
+      
+      const sadEmoji = document.createElement('div');
+      sadEmoji.classList.add('sadEmoji');
+      sadEmoji.textContent = randomEmoji;
+      
+      // Set random position
+      sadEmoji.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+      sadEmoji.style.left = Math.random() * (window.innerWidth - 50) + 'px';
+
+      // Append to the body
+      document.body.appendChild(sadEmoji);
+      
+      // Remove the emoji after 2 seconds
+      setTimeout(() => {
+        sadEmoji.remove();
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>
